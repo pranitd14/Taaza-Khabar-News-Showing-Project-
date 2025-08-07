@@ -1,0 +1,363 @@
+    :root {
+        --bg: #f0f2f5;
+        --text: #2c3e50;
+        --card: #ffffff;
+    }
+
+    .dark-mode {
+        --bg: #1e1e1e;
+        --text: #f0f2f5;
+        --card: #2c2c2c;
+    }
+
+    body {
+        font-family: 'Segoe UI', sans-serif;
+        margin: 0;
+        color: var(--text);
+        background-color: var(--bg);
+        position: relative;
+        z-index: 0;
+        overflow-x: hidden;
+    }
+
+    body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-image: url("static/media/background.png");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        z-index: -1;
+        transition: filter 0.3s ease;
+    }
+
+    body.dark-mode::before {
+        filter: invert(1) hue-rotate(180deg);
+    }
+
+    header {
+        background-color: #ffffff59;
+        color: white;
+        padding: 1rem;
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .header-left {
+        display: flex;
+        align-items: center;
+    }
+
+    .header-center {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        flex: 1;
+    }
+
+    .header-right {
+        display: flex;
+        align-items: center;
+    }
+
+    header img {
+        height: 150px;
+        vertical-align: middle;
+        margin-right: 8px;
+    }
+
+    #searchBar {
+        margin-top: 1rem;
+    }
+
+    #searchInput {
+        padding: 0.5rem;
+        width: 60%;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        font-size: 1rem;
+        transition: border-color 0.3s ease;
+    }
+
+    #searchButton,
+    #refreshButton,
+    #themeToggle {
+        padding: 0.5rem 1rem;
+        margin: 0.2rem;
+        border-radius: 5px;
+        border: none;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        color: white;
+    }
+
+    #searchButton {
+        background-color: #3498db;
+    }
+
+    #searchButton:hover {
+        background-color: #2980b9;
+    }
+
+    #refreshButton {
+        background-color: #27ae60;
+        position: absolute;
+    }
+
+    #refreshButton:hover {
+        background-color: #219150;
+    }
+
+    #themeToggle img {
+        height: 30px;
+    }
+
+    #themeToggle {
+        background-color: #8d44ad00;
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+    }
+
+    #themeToggle:hover {
+        background-color: #ffffff00;
+    }
+
+    /* Login Modal Styles */
+    .login-btn {
+        background-color: #e74c3c;
+        color: white;
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: background-color 0.3s ease;
+    }
+
+    .login-btn:hover {
+        background-color: #c0392b;
+    }
+
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(5px);
+    }
+
+    .modal-content {
+        background-color: var(--card);
+        margin: 5% auto;
+        padding: 2rem;
+        border-radius: 10px;
+        width: 90%;
+        max-width: 450px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        position: relative;
+    }
+
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+        position: absolute;
+        top: 10px;
+        right: 15px;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: var(--text);
+    }
+
+    .login-form {
+        margin-top: 1rem;
+    }
+
+    .form-group {
+        margin-bottom: 1rem;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+        color: var(--text);
+    }
+
+    .form-group input {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 1rem;
+        background-color: var(--bg);
+        color: var(--text);
+        box-sizing: border-box;
+    }
+
+    .form-group input:focus {
+        outline: none;
+        border-color: #3498db;
+        box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+    }
+
+    .login-submit {
+        width: 100%;
+        background-color: #3498db;
+        color: white;
+        padding: 0.75rem;
+        border: none;
+        border-radius: 5px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .login-submit:hover {
+        background-color: #2980b9;
+    }
+
+    .login-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .login-logo {
+        height: 80px;
+        margin-bottom: 1rem;
+    }
+
+    .login-title {
+        margin-bottom: 0.5rem;
+        color: var(--text);
+        font-size: 1.8rem;
+        font-weight: 600;
+    }
+
+    .login-subtitle {
+        color: #666;
+        font-size: 1rem;
+        margin: 0;
+    }
+
+
+
+    .register-link {
+        text-align: center;
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid #eee;
+    }
+
+    .register-link a {
+        color: #3498db;
+        text-decoration: none;
+    }
+
+    .register-link a:hover {
+        text-decoration: underline;
+    }
+
+    #loading {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 4rem 1rem;
+        font-size: 1.2rem;
+    }
+
+    .spinner {
+        width: 40px;
+        height: 40px;
+        border: 5px solid #ccc;
+        border-top: 5px solid #3498db;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin-bottom: 1rem;
+    }
+
+    @keyframes spin {
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    #news {
+        max-width: 1200px;
+        margin: 2rem auto;
+        padding: 1rem;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+    }
+
+    .news-card {
+        background: var(--card);
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+        transition: transform 0.2s ease;
+    }
+
+    .news-card:hover {
+        transform: translateY(-4px);
+    }
+
+    .news-image {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+        background-color: #eee;
+    }
+
+    .news-content {
+        padding: 1rem;
+        flex: 1;
+    }
+
+    .news-content h3 {
+        margin: 0 0 0.5rem;
+        font-size: 1.1rem;
+    }
+
+    .news-content p {
+        font-size: 0.95rem;
+        color: var(--text);
+    }
+
+    .news-content a {
+        display: inline-block;
+        margin-top: 0.5rem;
+        color: #3498db;
+        text-decoration: none;
+    }
+
+    .news-content a:hover {
+        text-decoration: underline;
+    }
+
+    footer {
+        text-align: center;
+        color: #888;
+        padding: 1rem;
+        margin-top: 2rem;
+    }
