@@ -1,0 +1,2214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Taaza Khabar</title>
+  <link rel="icon" href="https://i.ibb.co/WpBT07Gy/logo.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    :root {
+      --bg: #f0f2f5;
+      --text: #2c3e50;
+      --card: #ffffff;
+      --scrollbar-track-color: #e0e0e0;
+      --scrollbar-thumb-gradient: linear-gradient(135deg, #007bff, #17a2b8);
+    }
+
+    ::-webkit-scrollbar {
+      width: 12px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--scrollbar-track-color);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--scrollbar-thumb-gradient);
+      border-radius: 10px;
+    }
+
+    .dark-mode {
+      --bg: #1e1e1e;
+      --text: #f0f2f5;
+      --card: #2c2c2c;
+      --scrollbar-track-color: #2d3436;
+      --scrollbar-thumb-gradient: linear-gradient(135deg, #a8ff78, #78ffd6);
+    }
+
+    body {
+      font-family: "Segoe UI", sans-serif;
+      margin: 0;
+      color: var(--text);
+      background-color: var(--bg);
+      position: relative;
+      z-index: 0;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-image: url("https://i.ibb.co/jZkfGx0R/background.png");
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      z-index: -1;
+      transition: filter 0.3s ease;
+    }
+
+    body.dark-mode::before {
+      filter: invert(1) hue-rotate(180deg);
+    }
+
+    header {
+      background-color: #ffffff59;
+      color: white;
+      padding: 1rem;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      gap: 1rem;
+    }
+
+    .header-top img {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .header-spacer {
+      flex: 1;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    #user-session {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .welcome-user {
+      color: #ffffff !important;
+      font-weight: 500 !important;
+      font-size: 0.9rem !important;
+      background: linear-gradient(135deg, #3498db, #2980b9) !important;
+      padding: 0.5rem 1rem !important;
+      border-radius: 20px !important;
+      box-shadow: 0 2px 8px rgba(52, 152, 219, 0.3) !important;
+      border: 1px solid rgba(255,255,255,0.2) !important;
+    }
+
+    .dark-mode .welcome-user {
+      background: linear-gradient(135deg, #74b9ff, #0984e3) !important;
+      box-shadow: 0 2px 8px rgba(116, 185, 255, 0.3) !important;
+    }
+
+    .register-link a {
+      color: #3498db;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .register-link a:hover {
+      color: #2980b9;
+      text-decoration: underline;
+    }
+
+    .dark-mode .register-link a {
+      color: #74b9ff !important;
+    }
+
+    .dark-mode .register-link a:hover {
+      color: #0984e3 !important;
+    }
+
+    .dark-mode .register-link p {
+      color: #bdc3c7 !important;
+    }
+
+    .header-center {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
+
+    header img {
+      height: 120px;
+      vertical-align: middle;
+    }
+
+    #searchBar {
+      margin-top: 1rem;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .search-container {
+      display: flex;
+      width: 100%;
+      max-width: 600px;
+      gap: 0.5rem;
+    }
+
+    #searchInput {
+      padding: 0.75rem;
+      flex: 1;
+      border-radius: 25px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+      transition: border-color 0.3s ease;
+      min-width: 0;
+    }
+
+    #searchButton,
+    #refreshButton,
+    #themeToggle {
+      padding: 0.5rem 1rem;
+      margin: 0.2rem;
+      border-radius: 5px;
+      border: none;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      color: white;
+    }
+
+    #searchButton {
+      background-color: #3498db;
+    }
+
+    #searchButton:hover {
+      background-color: #2980b9;
+    }
+
+    #refreshButton {
+      background: linear-gradient(135deg, #3498db, #2ecc71);
+      position: fixed;
+      bottom: 1rem;
+      right: 1.4rem;
+      border-radius: 50%;
+      height: 60px;
+      width: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+      z-index: 1100;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: none;
+    }
+
+    #refreshButton:hover {
+      transform: scale(1.1);
+    }
+
+    #refreshButton:active {
+      transform: scale(0.95);
+    }
+
+    #refreshButton img {
+      height: 28px;
+      width: 28px;
+      transition: transform 0.5s ease;
+      display: block;
+      margin: 0;
+      object-fit: contain;
+    }
+
+    #refreshButton.rotating img {
+      transform: rotate(360deg);
+    }
+
+    #themeToggle {
+      background-color: transparent;
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      z-index: 1100;
+      border: none;
+      cursor: pointer;
+    }
+
+    #themeToggle img {
+      height: 30px;
+      width: 30px;
+    }
+
+    .login-btn, .feedback-btn {
+      background-color: #e74c3c;
+      color: white;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1rem;
+      margin-right: 0.5rem;
+      transition: background-color 0.3s ease;
+    }
+
+    .feedback-btn {
+      background-color: #f39c12;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(5px);
+    }
+
+    .modal-content {
+      background-color: var(--card);
+      margin: 10% auto;
+      padding: 1.5rem;
+      border-radius: 10px;
+      width: 95%;
+      max-width: 450px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      position: relative;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+      position: absolute;
+      top: 10px;
+      right: 15px;
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    .form-group input, textarea {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 1rem;
+      background-color: var(--bg);
+      color: var(--text);
+      box-sizing: border-box;
+    }
+
+    .login-submit {
+      width: 100%;
+      background-color: #3498db;
+      color: white;
+      padding: 0.75rem;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .login-submit:hover {
+      background-color: #2980b9;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(52, 152, 219, 0.4);
+    }
+
+    .login-submit:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 6px rgba(52, 152, 219, 0.3);
+    }
+
+    .login-submit.clicked {
+      animation: buttonPulse 0.6s ease;
+    }
+
+    @keyframes buttonPulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(0.95); }
+      100% { transform: scale(1); }
+    }
+
+    .login-submit::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: width 0.6s, height 0.6s;
+    }
+
+    .login-submit.ripple::before {
+      width: 300px;
+      height: 300px;
+    }
+
+    .tags-container {
+      margin-top: 1rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      justify-content: center;
+      max-width: 100%;
+      overflow-x: auto;
+      padding: 0.5rem 0;
+    }
+
+    .tag-btn {
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      color: white;
+      transition: all 0.3s ease;
+      white-space: nowrap;
+      min-width: fit-content;
+    }
+
+    .rating-stars {
+      display: flex;
+      gap: 0.2rem;
+      margin: 0.5rem 0;
+    }
+
+    .star {
+      font-size: 1.5rem;
+      color: #ddd;
+      cursor: pointer;
+      transition: color 0.2s ease;
+    }
+
+    .star:hover,
+    .star.active {
+      color: #f39c12;
+    }
+
+    .modal-logo {
+      height: 100px;
+      margin-bottom: 1rem;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Toast Notifications */
+    .toast {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #2ecc71;
+      color: white;
+      padding: 1rem 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      z-index: 2000;
+      transform: translateX(400px);
+      transition: transform 0.3s ease;
+    }
+
+    .toast.show {
+      transform: translateX(0);
+    }
+
+    .toast.error {
+      background: #e74c3c;
+    }
+
+    .toast.warning {
+      background: #f39c12;
+    }
+
+    /* Skeleton Loaders */
+    .skeleton-card {
+      background: var(--card);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      animation: pulse 1.5s ease-in-out infinite alternate;
+    }
+
+    .load-more-skeleton {
+      opacity: 0;
+      transform: translateY(30px) scale(0.95);
+      animation: skeletonSlideIn 0.6s ease forwards, pulse 1.5s ease-in-out infinite alternate;
+    }
+
+    .load-more-skeleton:nth-child(n) {
+      animation-delay: 0.1s;
+    }
+
+    .load-more-skeleton:nth-child(n+1) {
+      animation-delay: 0.2s;
+    }
+
+    .load-more-skeleton:nth-child(n+2) {
+      animation-delay: 0.3s;
+    }
+
+    @keyframes skeletonSlideIn {
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .skeleton-image {
+      width: 100%;
+      height: 180px;
+      background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+      background-size: 200% 100%;
+      animation: shimmer 2s infinite;
+    }
+
+    .skeleton-content {
+      padding: 1rem;
+    }
+
+    .skeleton-line {
+      height: 16px;
+      background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+      background-size: 200% 100%;
+      animation: shimmer 2s infinite;
+      border-radius: 4px;
+      margin-bottom: 0.5rem;
+    }
+
+    .skeleton-line.short {
+      width: 60%;
+    }
+
+    @keyframes shimmer {
+      0% {
+        background-position: -200% 0;
+      }
+      100% {
+        background-position: 200% 0;
+      }
+    }
+
+    /* Enhanced Card Animations */
+    .news-card {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 0.6s ease forwards;
+    }
+
+    .news-card:nth-child(odd) {
+      animation-delay: 0.1s;
+    }
+
+    .news-card:nth-child(even) {
+      animation-delay: 0.2s;
+    }
+
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .load-more-article {
+      opacity: 0;
+      transform: translateY(40px) scale(0.9);
+      animation: loadMoreSlideIn 0.8s ease forwards;
+    }
+
+    @keyframes loadMoreSlideIn {
+      0% {
+        opacity: 0;
+        transform: translateY(40px) scale(0.9);
+      }
+      50% {
+        opacity: 0.7;
+        transform: translateY(10px) scale(0.98);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* Form Validation */
+    .form-group.error input,
+    .form-group.error textarea {
+      border-color: #e74c3c;
+      box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.2);
+    }
+
+    .form-group.success input,
+    .form-group.success textarea {
+      border-color: #2ecc71;
+      box-shadow: 0 0 0 2px rgba(46, 204, 113, 0.2);
+    }
+
+    .error-message {
+      color: #e74c3c;
+      font-size: 0.85rem;
+      margin-top: 0.25rem;
+      display: none;
+    }
+
+    .form-group.error .error-message {
+      display: block;
+    }
+
+    /* Button Loading States */
+    .btn-loading {
+      position: relative;
+      color: transparent !important;
+    }
+
+    .btn-loading::after {
+      content: '';
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      top: 50%;
+      left: 50%;
+      margin-left: -8px;
+      margin-top: -8px;
+      border: 2px solid transparent;
+      border-top-color: #ffffff;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    /* Progress Bar */
+    .progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 0%;
+      height: 3px;
+      background: linear-gradient(90deg, #3498db, #2ecc71);
+      z-index: 2000;
+      transition: width 0.3s ease;
+    }
+
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 4rem 2rem;
+      color: #666;
+    }
+
+    .empty-state-icon {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+      opacity: 0.5;
+    }
+
+    /* Search Suggestions */
+    .search-suggestions {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: var(--card);
+      border: 1px solid #ddd;
+      border-top: none;
+      border-radius: 0 0 5px 5px;
+      max-height: 200px;
+      overflow-y: auto;
+      z-index: 1000;
+      display: none;
+    }
+
+    .suggestion-item {
+      padding: 0.75rem;
+      cursor: pointer;
+      border-bottom: 1px solid #eee;
+    }
+
+    .suggestion-item:hover {
+      background-color: #f8f9fa;
+    }
+
+    .suggestion-item:last-child {
+      border-bottom: none;
+    }
+
+    #loading {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 4rem 1rem;
+      font-size: 1.2rem;
+    }
+
+    .spinner {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 1rem;
+    }
+
+    .spinner-dot {
+      width: 12px;
+      height: 12px;
+      background: linear-gradient(135deg, #3498db, #2ecc71);
+      border-radius: 50%;
+      animation: bounce 1.4s ease-in-out infinite both;
+    }
+
+    .spinner-dot:nth-child(1) { animation-delay: -0.32s; }
+    .spinner-dot:nth-child(2) { animation-delay: -0.16s; }
+    .spinner-dot:nth-child(3) { animation-delay: 0s; }
+
+    @keyframes bounce {
+      0%, 80%, 100% {
+        transform: scale(0.8);
+        opacity: 0.5;
+      }
+      40% {
+        transform: scale(1.2);
+        opacity: 1;
+      }
+    }
+
+    #news {
+      max-width: 1200px;
+      margin: 1rem auto;
+      padding: 1rem;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .news-card {
+      background: var(--card);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s ease;
+    }
+
+    .news-card:hover {
+      transform: translateY(-4px);
+    }
+
+    .news-image {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      background-color: #eee;
+    }
+
+    .news-placeholder {
+      width: 100%;
+      height: 180px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .news-placeholder::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 20% 80%, rgba(255,255,255,0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255,255,255,0.1) 0%, transparent 50%),
+        linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.05) 50%, transparent 70%);
+      animation: floatingOrbs 4s ease-in-out infinite;
+    }
+
+    .news-placeholder::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, transparent, rgba(255,255,255,0.03), transparent);
+      animation: gentleShine 6s linear infinite;
+    }
+
+    .news-placeholder-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      z-index: 2;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+      animation: iconFloat 3s ease-in-out infinite;
+    }
+
+    .news-placeholder-text {
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      opacity: 0.95;
+      z-index: 2;
+      text-align: center;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    }
+
+    .news-placeholder-subtitle {
+      font-size: 0.7rem;
+      font-weight: 300;
+      opacity: 0.8;
+      margin-top: 0.5rem;
+      z-index: 2;
+      letter-spacing: 1px;
+    }
+
+    @keyframes floatingOrbs {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-10px) rotate(180deg); }
+    }
+
+    @keyframes gentleShine {
+      0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+      100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+    }
+
+    @keyframes iconFloat {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-5px); }
+    }
+
+    /* Category-based placeholder colors */
+    .news-placeholder.tech {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .news-placeholder.sports {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    }
+
+    .news-placeholder.business {
+      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    }
+
+    .news-placeholder.health {
+      background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    }
+
+    .news-placeholder.science {
+      background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+    }
+
+    .news-placeholder.entertainment {
+      background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+    }
+
+    .news-placeholder.politics {
+      background: linear-gradient(135deg, #d299c2 0%, #fef9d7 100%);
+    }
+
+    .news-placeholder.world {
+      background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%);
+    }
+
+    .news-placeholder-fallback {
+      width: 100%;
+      height: 180px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .news-placeholder-fallback::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 20% 80%, rgba(255,255,255,0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255,255,255,0.1) 0%, transparent 50%),
+        linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.05) 50%, transparent 70%);
+      animation: floatingOrbs 4s ease-in-out infinite;
+    }
+
+    .news-placeholder-fallback::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, transparent, rgba(255,255,255,0.03), transparent);
+      animation: gentleShine 6s linear infinite;
+    }
+
+    .news-placeholder-fallback .news-placeholder-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      z-index: 2;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+      animation: iconFloat 3s ease-in-out infinite;
+    }
+
+    .news-placeholder-fallback .news-placeholder-text {
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      opacity: 0.95;
+      z-index: 2;
+      text-align: center;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    }
+
+    .news-placeholder-fallback .news-placeholder-subtitle {
+      font-size: 0.7rem;
+      font-weight: 300;
+      opacity: 0.8;
+      margin-top: 0.5rem;
+      z-index: 2;
+      letter-spacing: 1px;
+    }
+
+    .news-content {
+      padding: 1rem;
+      flex: 1;
+    }
+
+    .news-image {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      background-color: #eee;
+    }
+
+    .news-content.no-image {
+      padding: 2rem;
+      background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+      border-left: 4px solid #3498db;
+      border-radius: 0 0 10px 10px;
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    .dark-mode .news-content.no-image {
+      background: linear-gradient(135deg, #2c2c2c 0%, #3a3a3a 100%);
+      border-left-color: #74b9ff;
+    }
+
+    .news-category {
+      display: inline-block;
+      background: linear-gradient(135deg, #3498db, #2980b9);
+      color: white;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      padding: 0.4rem 0.8rem;
+      border-radius: 15px;
+      margin-bottom: 1rem;
+      box-shadow: 0 2px 8px rgba(52, 152, 219, 0.3);
+    }
+
+    .news-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid #eee;
+    }
+
+    .news-source {
+      color: #666;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    .read-more-btn {
+      background: #3498db;
+      color: white !important;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .read-more-btn:hover {
+      background: #2980b9;
+      transform: translateY(-1px);
+    }
+
+    .news-content h3 {
+      margin: 0 0 1rem;
+      font-size: 1.2rem;
+      line-height: 1.4;
+      font-weight: 600;
+    }
+
+    .news-content.no-image h3 {
+      font-size: 1.3rem;
+      color: #2c3e50;
+      margin-bottom: 1.2rem;
+    }
+
+    .dark-mode .news-content.no-image h3 {
+      color: #ecf0f1;
+    }
+
+    .news-content p {
+      font-size: 0.95rem;
+      color: var(--text);
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+
+    .news-content.no-image p {
+      font-size: 1rem;
+      color: #555;
+      font-style: italic;
+    }
+
+    .dark-mode .news-content.no-image p {
+      color: #bdc3c7;
+    }
+
+    .news-content a {
+      display: inline-block;
+      margin-top: 0.5rem;
+      color: #3498db;
+      text-decoration: none;
+    }
+
+    footer {
+      text-align: center;
+      color: #888;
+      padding: 1rem;
+      margin-top: 2rem;
+    }
+
+    #user-session {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .logout-btn {
+      background-color: #e74c3c;
+      color: white;
+      padding: 8px 15px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    /* Mobile First Responsive Design */
+    @media (max-width: 480px) {
+      header {
+        padding: 0.5rem;
+      }
+      
+      header img {
+        height: 80px;
+      }
+      
+      .header-right {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 0.3rem;
+      }
+      
+      .feedback-btn, .login-btn {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.85rem;
+      }
+      
+      #searchInput {
+        padding: 0.6rem;
+        font-size: 0.9rem;
+      }
+      
+      #searchButton {
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+      }
+      
+      .tags-container {
+        padding: 0.3rem;
+        gap: 0.3rem;
+      }
+      
+      .tag-btn {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.8rem;
+      }
+      
+      .news-card {
+        margin-bottom: 1rem;
+      }
+      
+      .news-content {
+        padding: 1rem;
+      }
+      
+      .news-content.no-image {
+        padding: 1.5rem;
+      }
+      
+      .modal-content {
+        margin: 5% auto;
+        padding: 1rem;
+        width: 98%;
+      }
+      
+      .modal-logo {
+        height: 60px;
+      }
+      
+      #refreshButton {
+        bottom: 0.5rem;
+        right: 0.5rem;
+        height: 50px;
+        width: 50px;
+      }
+      
+      #themeToggle {
+        top: 0.5rem;
+        right: 0.5rem;
+      }
+      
+      #themeToggle img {
+        height: 24px;
+        width: 24px;
+      }
+    }
+
+    /* Tablet Portrait */
+    @media (min-width: 481px) and (max-width: 768px) {
+      header img {
+        height: 100px;
+      }
+      
+      #news {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.2rem;
+      }
+      
+      .search-container {
+        max-width: 500px;
+      }
+      
+      .modal-content {
+        width: 85%;
+        margin: 8% auto;
+      }
+    }
+
+    /* Tablet Landscape & Small Desktop */
+    @media (min-width: 769px) and (max-width: 1024px) {
+      header {
+        flex-direction: row;
+        justify-content: space-between;
+      }
+      
+      .header-center {
+        flex: 1;
+        margin: 0 2rem;
+      }
+      
+      #news {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+      }
+      
+      .search-container {
+        max-width: 400px;
+      }
+    }
+
+    /* Desktop */
+    @media (min-width: 1025px) {
+      header {
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 1.5rem;
+      }
+      
+      .header-center {
+        flex: 1;
+        margin: 0 3rem;
+      }
+      
+      header img {
+        height: 150px;
+      }
+      
+      #news {
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 2rem;
+        margin: 2rem auto;
+      }
+      
+      .search-container {
+        max-width: 600px;
+      }
+      
+      .modal-content {
+        width: 80%;
+        max-width: 500px;
+        margin: 5% auto;
+        padding: 2rem;
+      }
+    }
+
+    /* Show More Button */
+    .show-more-container {
+      grid-column: 1 / -1;
+      display: flex;
+      justify-content: center;
+      margin: 2rem 0;
+    }
+
+    .show-more-btn {
+      background: linear-gradient(135deg, #3498db, #2980b9);
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: 25px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+    }
+
+    .show-more-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+    }
+
+    .show-more-btn:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-icon {
+      font-size: 1.2rem;
+      transition: transform 0.3s ease;
+    }
+
+    .spinner-icon {
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    /* Large Desktop */
+    @media (min-width: 1440px) {
+      #news {
+        grid-template-columns: repeat(4, 1fr);
+      }
+      
+      .search-container {
+        max-width: 700px;
+      }
+    }
+
+    /* Touch Device Optimizations */
+    @media (hover: none) and (pointer: coarse) {
+      .news-card:hover {
+        transform: none;
+      }
+      
+      .tag-btn, .login-btn, .feedback-btn {
+        min-height: 44px;
+        min-width: 44px;
+      }
+      
+      #searchButton, #refreshButton {
+        min-height: 44px;
+        min-width: 44px;
+      }
+    }
+
+    /* Landscape Phone */
+    @media (max-height: 500px) and (orientation: landscape) {
+      header img {
+        height: 60px;
+      }
+      
+      .modal-content {
+        margin: 2% auto;
+        max-height: 95vh;
+      }
+      
+      .modal-logo {
+        height: 50px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Progress Bar -->
+  <div class="progress-bar" id="progressBar"></div>
+  
+  <!-- Toast Container -->
+  <div id="toastContainer"></div>
+  
+  <header>
+    <div class="header-top">
+      <div class="header-left">
+        <div id="user-session"></div>
+        <button id="feedbackBtn" onclick="openFeedbackModal()" class="feedback-btn">Feedback</button>
+      </div>
+      <img src="https://i.ibb.co/WpBT07Gy/logo.png" alt="Taaza Khabar Logo" loading="eager">
+      <div class="header-spacer"></div>
+    </div>
+    <div class="header-center">
+      <div id="searchBar">
+        <div class="search-container">
+          <div style="position: relative; flex: 1;">
+            <input type="text" id="searchInput" placeholder="Search news..." autocomplete="off" />
+            <div id="searchSuggestions" class="search-suggestions"></div>
+          </div>
+          <button id="searchButton" onclick="searchNews()">Search</button>
+        </div>
+      </div>
+      <div id="tagsContainer" class="tags-container"></div>
+    </div>
+  </header>
+
+  <!-- Login Modal -->
+  <div id="loginModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeLoginModal()">&times;</span>
+      <div class="login-header">
+        <img src="https://i.ibb.co/WpBT07Gy/logo.png" alt="Taaza Khabar Logo" class="modal-logo">
+        <h2>Welcome Back</h2>
+        <p>Sign in to your account</p>
+      </div>
+      <form id="loginForm" class="login-form">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username" required />
+          <div class="error-message">Username is required</div>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" required />
+          <div class="error-message">Password is required</div>
+        </div>
+        <button type="submit" class="login-submit">Sign In</button>
+      </form>
+      <div class="register-link">
+        <p>
+          Don't have an account?
+          <a href="#" onclick="showRegisterForm()">Register here</a>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Feedback Modal -->
+  <div id="feedbackModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeFeedbackModal()">&times;</span>
+      <div class="login-header">
+        <img src="https://i.ibb.co/WpBT07Gy/logo.png" alt="Taaza Khabar Logo" class="modal-logo">
+        <h2>Share Your Feedback</h2>
+        <p>Help us improve Taaza Khabar</p>
+      </div>
+      <form id="feedbackForm" class="login-form">
+        <div class="form-group">
+          <label for="feedbackName">Name (Optional)</label>
+          <input type="text" id="feedbackName" name="name" />
+        </div>
+        <div class="form-group">
+          <label for="feedbackEmail">Email (Optional)</label>
+          <input type="email" id="feedbackEmail" name="email" />
+        </div>
+        <div class="form-group">
+          <label for="rating">Rating *</label>
+          <div class="rating-stars">
+            <span class="star" data-rating="1">★</span>
+            <span class="star" data-rating="2">★</span>
+            <span class="star" data-rating="3">★</span>
+            <span class="star" data-rating="4">★</span>
+            <span class="star" data-rating="5">★</span>
+          </div>
+          <input type="hidden" id="rating" name="rating" value="0" />
+        </div>
+        <div class="form-group">
+          <label for="feedbackMessage">Message *</label>
+          <textarea id="feedbackMessage" name="message" rows="4" required placeholder="Tell us what you think..."></textarea>
+        </div>
+        <button type="submit" class="login-submit">Submit Feedback</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="loading">
+    <div class="spinner">
+      <div class="spinner-dot"></div>
+      <div class="spinner-dot"></div>
+      <div class="spinner-dot"></div>
+    </div>
+    <p>Loading <strong>Taaza Khabar</strong>...</p>
+  </div>
+
+  <!-- Fixed Position Buttons -->
+  <button id="refreshButton" onclick="refreshNews()">
+    <img src="https://i.ibb.co/G4hjNp9v/sync.png" alt="Refresh" loading="eager" />
+  </button>
+  
+  <button id="themeToggle" onclick="toggleTheme()">
+    <img src="https://i.ibb.co/9HnYydFV/theme-toggle.png" alt="Toggle Theme" loading="eager" />
+  </button>
+
+  <div id="news"></div>
+
+  <footer>&copy; 2025 Taaza Khabar</footer>
+
+  <script>
+    let currentUser = null;
+    let searchTimeout = null;
+    let newsCache = {};
+    let currentQuery = 'world';
+    let currentPage = 1;
+    let isLoading = false;
+    const searchSuggestions = ['Technology', 'Sports', 'Business', 'Health', 'Science', 'Entertainment', 'Politics', 'World', 'AI', 'Climate', 'Economy', 'Elections'];
+
+    // Toast Notification System
+    function showToast(message, type = 'success') {
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      toast.textContent = message;
+      
+      document.getElementById('toastContainer').appendChild(toast);
+      
+      setTimeout(() => toast.classList.add('show'), 100);
+      
+      setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 300);
+      }, 3000);
+    }
+
+    // Progress Bar
+    function showProgress() {
+      const bar = document.getElementById('progressBar');
+      bar.style.width = '0%';
+      bar.style.display = 'block';
+      
+      let width = 0;
+      const interval = setInterval(() => {
+        width += Math.random() * 15;
+        if (width >= 90) {
+          clearInterval(interval);
+          width = 90;
+        }
+        bar.style.width = width + '%';
+      }, 200);
+      
+      return () => {
+        clearInterval(interval);
+        bar.style.width = '100%';
+        setTimeout(() => {
+          bar.style.display = 'none';
+          bar.style.width = '0%';
+        }, 200);
+      };
+    }
+
+    // Form Validation
+    function validateField(input, rules) {
+      const group = input.closest('.form-group');
+      const value = input.value.trim();
+      
+      group.classList.remove('error', 'success');
+      
+      if (rules.required && !value) {
+        group.classList.add('error');
+        return false;
+      }
+      
+      if (rules.minLength && value.length < rules.minLength) {
+        group.classList.add('error');
+        return false;
+      }
+      
+      if (rules.email && value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+        group.classList.add('error');
+        return false;
+      }
+      
+      if (value) {
+        group.classList.add('success');
+      }
+      
+      return true;
+    }
+
+    // Button Loading State
+    function setButtonLoading(button, loading) {
+      if (loading) {
+        button.classList.add('btn-loading');
+        button.disabled = true;
+      } else {
+        button.classList.remove('btn-loading');
+        button.disabled = false;
+      }
+    }
+
+    // Skeleton Loader
+    function showSkeletonCards() {
+      const container = document.getElementById('news');
+      container.innerHTML = '';
+      
+      for (let i = 0; i < 6; i++) {
+        const skeleton = document.createElement('div');
+        skeleton.className = 'skeleton-card';
+        skeleton.innerHTML = `
+          <div class="skeleton-image"></div>
+          <div class="skeleton-content">
+            <div class="skeleton-line"></div>
+            <div class="skeleton-line short"></div>
+            <div class="skeleton-line"></div>
+          </div>
+        `;
+        container.appendChild(skeleton);
+      }
+    }
+
+    // Search Suggestions
+    function showSearchSuggestions(query) {
+      const container = document.getElementById('searchSuggestions');
+      const filtered = searchSuggestions.filter(s => 
+        s.toLowerCase().includes(query.toLowerCase())
+      ).slice(0, 5);
+      
+      if (filtered.length === 0 || query.length < 2) {
+        container.style.display = 'none';
+        return;
+      }
+      
+      container.innerHTML = filtered.map(suggestion => 
+        `<div class="suggestion-item" onclick="selectSuggestion('${suggestion}')">${suggestion}</div>`
+      ).join('');
+      
+      container.style.display = 'block';
+    }
+
+    function selectSuggestion(suggestion) {
+      document.getElementById('searchInput').value = suggestion;
+      document.getElementById('searchSuggestions').style.display = 'none';
+      fetchNews(suggestion);
+    }
+
+    // Debounced Search
+    function debounceSearch(query) {
+      clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(() => {
+        if (query.length >= 2) {
+          showSearchSuggestions(query);
+        }
+      }, 300);
+    }
+
+    function displayNews(data, append = false) {
+      document.getElementById("loading").style.display = "none";
+      const newsContainer = document.getElementById("news");
+      newsContainer.style.display = "grid";
+      
+      if (!append) {
+        newsContainer.innerHTML = "";
+      } else {
+        // Remove existing show more button and skeleton cards
+        const existingBtn = document.getElementById('showMoreBtn');
+        if (existingBtn) existingBtn.remove();
+        
+        // Remove skeleton cards with fade out animation
+        const skeletons = document.querySelectorAll('.load-more-skeleton');
+        skeletons.forEach(skeleton => skeleton.remove());
+      }
+
+      if (data.status === "ok" && Array.isArray(data.articles) && data.articles.length > 0) {
+        data.articles.forEach((article, index) => {
+          const card = document.createElement("div");
+          card.className = "news-card";
+          
+          // Add special animation for load more articles
+          if (append) {
+            card.classList.add('load-more-article');
+            card.style.animationDelay = `${index * 0.15}s`;
+          } else {
+            card.style.animationDelay = `${index * 0.1}s`;
+          }
+          
+          let imageSection;
+          if (article.urlToImage && article.urlToImage.trim() !== '') {
+            imageSection = `<img class="news-image" src="${article.urlToImage}" alt="News Image" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div class="news-placeholder-fallback" style="display:none;">`;
+          } else {
+            // Determine category for color scheme
+            const title = article.title.toLowerCase();
+            let category = 'world';
+            if (title.includes('tech') || title.includes('ai') || title.includes('digital')) category = 'tech';
+            else if (title.includes('sport') || title.includes('game') || title.includes('match')) category = 'sports';
+            else if (title.includes('business') || title.includes('market') || title.includes('economy')) category = 'business';
+            else if (title.includes('health') || title.includes('medical') || title.includes('covid')) category = 'health';
+            else if (title.includes('science') || title.includes('research') || title.includes('study')) category = 'science';
+            else if (title.includes('entertainment') || title.includes('movie') || title.includes('music')) category = 'entertainment';
+            else if (title.includes('politic') || title.includes('election') || title.includes('government')) category = 'politics';
+            
+            const icons = {
+              tech: '📱', sports: '⚽', business: '💼', health: '🍿',
+              science: '🔬', entertainment: '🎨', politics: '🏦', world: '🌍'
+            };
+            
+            const categoryNames = {
+              tech: 'Technology', sports: 'Sports', business: 'Business', health: 'Health',
+              science: 'Science', entertainment: 'Entertainment', politics: 'Politics', world: 'World News'
+            };
+            
+            imageSection = `<div class="news-placeholder ${category}">
+                <div class="news-placeholder-icon">${icons[category]}</div>
+                <div class="news-placeholder-text">${categoryNames[category]}</div>
+                <div class="news-placeholder-subtitle">Breaking News</div>
+              </div>`;
+          }
+          
+          // Close fallback div if image exists
+          if (article.urlToImage && article.urlToImage.trim() !== '') {
+            const title = article.title.toLowerCase();
+            let category = 'world';
+            if (title.includes('tech') || title.includes('ai') || title.includes('digital')) category = 'tech';
+            else if (title.includes('sport') || title.includes('game') || title.includes('match')) category = 'sports';
+            else if (title.includes('business') || title.includes('market') || title.includes('economy')) category = 'business';
+            else if (title.includes('health') || title.includes('medical') || title.includes('covid')) category = 'health';
+            else if (title.includes('science') || title.includes('research') || title.includes('study')) category = 'science';
+            else if (title.includes('entertainment') || title.includes('movie') || title.includes('music')) category = 'entertainment';
+            else if (title.includes('politic') || title.includes('election') || title.includes('government')) category = 'politics';
+            
+            const icons = {
+              tech: '📱', sports: '⚽', business: '💼', health: '🍿',
+              science: '🔬', entertainment: '🎨', politics: '🏦', world: '🌍'
+            };
+            
+            const categoryNames = {
+              tech: 'Technology', sports: 'Sports', business: 'Business', health: 'Health',
+              science: 'Science', entertainment: 'Entertainment', politics: 'Politics', world: 'World News'
+            };
+            
+            imageSection += `
+                <div class="news-placeholder-icon">${icons[category]}</div>
+                <div class="news-placeholder-text">${categoryNames[category]}</div>
+                <div class="news-placeholder-subtitle">Breaking News</div>
+              </div>
+            </div>`;
+          }
+            
+          card.innerHTML = `
+            ${imageSection}
+            <div class="news-content ${!article.urlToImage ? 'no-image' : ''}">
+              ${!article.urlToImage ? '<div class="news-category">🔥 Featured Story</div>' : ''}
+              <h3>${article.title}</h3>
+              <p>${article.description || "Stay informed with the latest updates and breaking news from around the world."}</p>
+              <div class="news-meta">
+                <span class="news-source">${article.source?.name || 'Taaza Khabar'}</span>
+                <a href="${article.url}" target="_blank" class="read-more-btn">Read Full Story →</a>
+              </div>
+            </div>
+          `;
+          newsContainer.appendChild(card);
+        });
+        
+        // Add show more button if we have articles
+        if (data.articles.length > 0) {
+          const showMoreBtn = document.createElement('div');
+          showMoreBtn.id = 'showMoreBtn';
+          showMoreBtn.className = 'show-more-container';
+          showMoreBtn.innerHTML = `
+            <button class="show-more-btn" onclick="loadMoreNews()">
+              <span>Show More News</span>
+              <div class="btn-icon">↓</div>
+            </button>
+          `;
+          newsContainer.appendChild(showMoreBtn);
+        }
+      } else if (!append) {
+        newsContainer.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-state-icon">📰</div>
+            <h3>No News Found</h3>
+            <p>Try searching for something else or check back later.</p>
+            <button onclick="refreshNews()" class="login-btn">Refresh</button>
+          </div>
+        `;
+      }
+    }
+
+    function loadMoreNews() {
+      if (isLoading) return;
+      currentPage++;
+      fetchNews(currentQuery, true);
+    }
+
+    function searchNews() {
+      const query = document.getElementById("searchInput").value.trim();
+      if (!query) {
+        alert("Please enter a search term");
+        return;
+      }
+      currentPage = 1;
+      fetchNews(query);
+    }
+
+    function refreshNews() {
+      const refreshBtn = document.getElementById("refreshButton");
+      refreshBtn.classList.add('rotating');
+      
+      document.getElementById("searchInput").value = "";
+      currentPage = 1;
+      fetchNews();
+      
+      setTimeout(() => {
+        refreshBtn.classList.remove('rotating');
+      }, 500);
+    }
+
+    function toggleTheme() {
+      document.body.classList.toggle("dark-mode");
+      const isDark = document.body.classList.contains('dark-mode');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      showToast(`Switched to ${isDark ? 'dark' : 'light'} mode`, 'success');
+    }
+
+    function openLoginModal() {
+      document.getElementById("loginModal").style.display = "block";
+    }
+
+    function closeLoginModal() {
+      document.getElementById("loginModal").style.display = "none";
+      document.getElementById("loginForm").reset();
+    }
+
+    function updateUserSession() {
+      const sessionContainer = document.getElementById("user-session");
+      if (currentUser) {
+        sessionContainer.innerHTML = `
+          <span class="welcome-user">Hello, ${currentUser}</span>
+          <button class="logout-btn" onclick="logout()">Logout</button>
+        `;
+      } else {
+        sessionContainer.innerHTML = '<button class="login-btn" onclick="openLoginModal()">Login</button>';
+      }
+    }
+
+    function showRegisterForm() {
+      const modalContent = document.querySelector("#loginModal .modal-content");
+      modalContent.innerHTML = `
+        <span class="close" onclick="closeLoginModal()">&times;</span>
+        <div class="login-header">
+          <img src="https://i.ibb.co/WpBT07Gy/logo.png" alt="Taaza Khabar Logo" class="modal-logo">
+          <h2>Create Account</h2>
+        </div>
+        <form id="registerForm" class="login-form">
+          <div class="form-group">
+            <label for="reg-username">Username</label>
+            <input type="text" id="reg-username" name="username" required minlength="3">
+          </div>
+          <div class="form-group">
+            <label for="reg-password">Password</label>
+            <input type="password" id="reg-password" name="password" required minlength="6">
+          </div>
+          <button type="submit" class="login-submit">Create Account</button>
+        </form>
+        <div class="register-link">
+          <p>Already have an account? <a href="#" onclick="showLoginForm()">Sign in here</a></p>
+        </div>
+      `;
+      
+      document.getElementById('registerForm').addEventListener('submit', handleRegister);
+    }
+
+    function showLoginForm() {
+      const modalContent = document.querySelector("#loginModal .modal-content");
+      modalContent.innerHTML = `
+        <span class="close" onclick="closeLoginModal()">&times;</span>
+        <div class="login-header">
+          <img src="https://i.ibb.co/WpBT07Gy/logo.png" alt="Taaza Khabar Logo" class="modal-logo">
+          <h2>Welcome Back</h2>
+          <p>Sign in to your account</p>
+        </div>
+        <form id="loginForm" class="login-form">
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" required />
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required />
+          </div>
+          <button type="submit" class="login-submit">Sign In</button>
+        </form>
+        <div class="register-link">
+          <p>Don't have an account? <a href="#" onclick="showRegisterForm()">Register here</a></p>
+        </div>
+      `;
+      
+      document.getElementById('loginForm').addEventListener('submit', handleLogin);
+    }
+
+    function addButtonAnimation(button) {
+      button.classList.add('clicked', 'ripple');
+      setTimeout(() => {
+        button.classList.remove('clicked', 'ripple');
+      }, 600);
+    }
+
+    function handleLogin(e) {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const submitBtn = e.target.querySelector('.login-submit');
+      
+      // Add click animation
+      addButtonAnimation(submitBtn);
+      
+      // Validate fields
+      const username = e.target.querySelector('#username');
+      const password = e.target.querySelector('#password');
+      
+      if (!validateField(username, {required: true, minLength: 3}) |
+          !validateField(password, {required: true, minLength: 6})) {
+        return;
+      }
+      
+      setButtonLoading(submitBtn, true);
+      
+      fetch('/login', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          username: formData.get('username'),
+          password: formData.get('password')
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        setButtonLoading(submitBtn, false);
+        if (data.status === 'success') {
+          currentUser = formData.get('username');
+          updateUserSession();
+          closeLoginModal();
+          showToast(data.message, 'success');
+          localStorage.setItem('username', currentUser);
+        } else {
+          showToast(data.message, 'error');
+        }
+      })
+      .catch(error => {
+        setButtonLoading(submitBtn, false);
+        showToast('Login failed. Please try again.', 'error');
+      });
+    }
+
+    function handleRegister(e) {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const submitBtn = e.target.querySelector('.login-submit');
+      
+      // Add click animation
+      addButtonAnimation(submitBtn);
+      
+      setButtonLoading(submitBtn, true);
+      
+      fetch('/register', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          username: formData.get('username'),
+          password: formData.get('password')
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        setButtonLoading(submitBtn, false);
+        if (data.status === 'success') {
+          showToast(data.message, 'success');
+          showLoginForm();
+        } else {
+          showToast(data.message, 'error');
+        }
+      })
+      .catch(error => {
+        setButtonLoading(submitBtn, false);
+        showToast('Registration failed. Please try again.', 'error');
+      });
+    }
+
+    function logout() {
+      fetch('/logout', {method: 'POST'})
+      .then(() => {
+        currentUser = null;
+        updateUserSession();
+        localStorage.removeItem('username');
+        showToast('Logged out successfully', 'success');
+      });
+    }
+
+    function loadTags() {
+      fetch('/tags')
+        .then(response => response.json())
+        .then(data => {
+          if (data.status === 'success') {
+            displayTags(data.tags);
+          }
+        })
+        .catch(() => {
+          const defaultTags = [
+            {tag_name: 'Technology', tag_color: '#3498db'},
+            {tag_name: 'Sports', tag_color: '#e74c3c'},
+            {tag_name: 'Business', tag_color: '#2ecc71'},
+            {tag_name: 'Health', tag_color: '#f39c12'},
+            {tag_name: 'Science', tag_color: '#9b59b6'},
+            {tag_name: 'Entertainment', tag_color: '#e67e22'},
+            {tag_name: 'Politics', tag_color: '#34495e'},
+            {tag_name: 'World', tag_color: '#1abc9c'}
+          ];
+          displayTags(defaultTags);
+        });
+    }
+
+    function displayTags(tags) {
+      const container = document.getElementById('tagsContainer');
+      container.innerHTML = '';
+      
+      tags.forEach(tag => {
+        const btn = document.createElement('button');
+        btn.className = 'tag-btn';
+        btn.textContent = tag.tag_name;
+        btn.style.backgroundColor = tag.tag_color;
+        btn.onclick = () => searchByTag(tag.tag_name);
+        container.appendChild(btn);
+      });
+    }
+
+    function searchByTag(tagName) {
+      document.getElementById('searchInput').value = tagName;
+      currentPage = 1;
+      fetchNews(tagName);
+    }
+
+    function openFeedbackModal() {
+      document.getElementById('feedbackModal').style.display = 'block';
+    }
+
+    function closeFeedbackModal() {
+      document.getElementById('feedbackModal').style.display = 'none';
+      document.getElementById('feedbackForm').reset();
+      document.getElementById('rating').value = '0';
+      document.querySelectorAll('.star').forEach(star => star.classList.remove('active'));
+    }
+
+    function fetchNews(query = 'world', append = false) {
+      if (isLoading) return;
+      
+      currentQuery = query;
+      isLoading = true;
+      
+      // Check cache first (only for first page)
+      const cacheKey = `${query.toLowerCase()}_${currentPage}`;
+      if (!append && currentPage === 1 && newsCache[cacheKey] && Date.now() - newsCache[cacheKey].timestamp < 300000) {
+        displayNews(newsCache[cacheKey].data, append);
+        isLoading = false;
+        return;
+      }
+      
+      if (!append) {
+        document.getElementById("loading").style.display = "flex";
+        document.getElementById("news").style.display = "none";
+        showSkeletonCards();
+        document.getElementById("loading").style.display = "none";
+        document.getElementById("news").style.display = "grid";
+      } else {
+        // Show loading animation for more news
+        const showMoreBtn = document.querySelector('.show-more-btn');
+        if (showMoreBtn) {
+          showMoreBtn.innerHTML = '<span>Loading More...</span><div class="btn-icon spinner-icon">↻</div>';
+          showMoreBtn.disabled = true;
+        }
+        
+        // Add animated skeleton cards for loading more news
+        const newsContainer = document.getElementById('news');
+        for (let i = 0; i < 3; i++) {
+          const skeleton = document.createElement('div');
+          skeleton.className = 'skeleton-card load-more-skeleton';
+          skeleton.innerHTML = `
+            <div class="skeleton-image"></div>
+            <div class="skeleton-content">
+              <div class="skeleton-line"></div>
+              <div class="skeleton-line short"></div>
+              <div class="skeleton-line"></div>
+            </div>
+          `;
+          newsContainer.appendChild(skeleton);
+        }
+      }
+      
+      const finishProgress = showProgress();
+
+      fetch(`/get-news?q=${encodeURIComponent(query)}&page=${currentPage}`)
+        .then(response => {
+          if (!response.ok) throw new Error('Network response was not ok');
+          return response.json();
+        })
+        .then(data => {
+          finishProgress();
+          isLoading = false;
+          
+          // Cache the results
+          newsCache[cacheKey] = {
+            data: data,
+            timestamp: Date.now()
+          };
+          
+          displayNews(data, append);
+          
+          if (data.status === "ok" && data.articles && data.articles.length > 0) {
+            const message = append ? `Loaded ${data.articles.length} more articles` : `Found ${data.articles.length} articles`;
+            showToast(message, 'success');
+          }
+        })
+        .catch(error => {
+          finishProgress();
+          isLoading = false;
+          console.error("Fetch error:", error);
+          
+          if (!append) {
+            const newsContainer = document.getElementById("news");
+            newsContainer.innerHTML = `
+              <div class="empty-state">
+                <div class="empty-state-icon">⚠️</div>
+                <h3>Failed to Load News</h3>
+                <p>Please check your connection and try again.</p>
+                <button onclick="fetchNews('${query}')" class="login-btn">Retry</button>
+              </div>
+            `;
+          } else {
+            // Remove skeleton cards and reset show more button on error
+            const skeletons = document.querySelectorAll('.load-more-skeleton');
+            skeletons.forEach(skeleton => skeleton.remove());
+            
+            const showMoreBtn = document.querySelector('.show-more-btn');
+            if (showMoreBtn) {
+              showMoreBtn.innerHTML = '<span>Show More News</span><div class="btn-icon">↓</div>';
+              showMoreBtn.disabled = false;
+            }
+            currentPage--; // Reset page on error
+          }
+          
+          showToast('Failed to load news. Please try again.', 'error');
+        });
+    }
+
+    // Initialize
+    document.addEventListener("DOMContentLoaded", () => {
+      updateUserSession();
+      loadTags();
+      currentPage = 1;
+      fetchNews();
+
+      // Rating stars
+      const stars = document.querySelectorAll('.star');
+      stars.forEach(star => {
+        star.addEventListener('click', function() {
+          const rating = this.getAttribute('data-rating');
+          document.getElementById('rating').value = rating;
+          
+          stars.forEach((s, index) => {
+            if (index < rating) {
+              s.classList.add('active');
+            } else {
+              s.classList.remove('active');
+            }
+          });
+        });
+      });
+
+      // Feedback form
+      document.getElementById('feedbackForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        const submitBtn = this.querySelector('.login-submit');
+        
+        // Add click animation
+        addButtonAnimation(submitBtn);
+        
+        if (formData.get('rating') === '0') {
+          showToast('Please select a rating', 'warning');
+          return;
+        }
+
+        fetch('/feedback', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            name: formData.get('name'),
+            email: formData.get('email'),
+            rating: formData.get('rating'),
+            message: formData.get('message')
+          })
+        })
+        .then(response => response.json())
+        .then(data => {
+          alert(data.message);
+          if (data.status === 'success') {
+            closeFeedbackModal();
+          }
+        });
+      });
+
+      // Login form
+      document.getElementById('loginForm').addEventListener('submit', handleLogin);
+      
+      // Search input enhancements
+      const searchInput = document.getElementById('searchInput');
+      searchInput.addEventListener('input', (e) => {
+        debounceSearch(e.target.value);
+      });
+      
+      searchInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          searchNews();
+        }
+      });
+      
+      // Click outside to close suggestions
+      document.addEventListener('click', (e) => {
+        if (!e.target.closest('#searchBar')) {
+          document.getElementById('searchSuggestions').style.display = 'none';
+        }
+      });
+      
+      // Keyboard shortcuts
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          closeLoginModal();
+          closeFeedbackModal();
+          document.getElementById('searchSuggestions').style.display = 'none';
+        }
+        
+        if (e.ctrlKey && e.key === 'k') {
+          e.preventDefault();
+          searchInput.focus();
+        }
+      });
+      
+      // Form validation for all inputs
+      document.querySelectorAll('input, textarea').forEach(input => {
+        input.addEventListener('blur', () => {
+          const rules = {
+            required: input.hasAttribute('required'),
+            minLength: input.getAttribute('minlength') || 0,
+            email: input.type === 'email'
+          };
+          validateField(input, rules);
+        });
+      });
+      
+      // Dark mode persistence
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        document.body.classList.add('dark-mode');
+      }
+      
+      // Remember user
+      const savedUser = localStorage.getItem('username');
+      if (savedUser) {
+        currentUser = savedUser;
+        updateUserSession();
+      }
+      
+      // Lazy loading for images
+      if ('IntersectionObserver' in window) {
+        const imageObserver = new IntersectionObserver((entries, observer) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              const img = entry.target;
+              img.src = img.dataset.src;
+              img.classList.remove('lazy');
+              observer.unobserve(img);
+            }
+          });
+        });
+        
+        document.querySelectorAll('img[data-src]').forEach(img => {
+          imageObserver.observe(img);
+        });
+      }
+    });
+  </script>
+</body>
+
+</html>
